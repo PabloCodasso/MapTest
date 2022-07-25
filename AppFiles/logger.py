@@ -8,7 +8,7 @@ def logger_prcs(log_queue):
     my_logger = logging.getLogger('app')
     my_logger.setLevel(logging.DEBUG)
 
-    file_handler = logging.FileHandler(r"Logs\maptest %s.log" % timestamp)
+    file_handler = logging.FileHandler(r"AppFiles\Logs\maptest %s.log" % timestamp)
 
     formatter = logging.Formatter('%(asctime)s - %(name)-12s - %(levelname)-8s - %(message)s')
     file_handler.setFormatter(formatter)

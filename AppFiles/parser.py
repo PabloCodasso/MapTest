@@ -16,7 +16,7 @@ class URLparser:
         self.topars_queue = prs_queue
         self.toset_queue = set_queue
 
-        self.BS_workers_id_list = list(range(3))
+        self.BS_workers_id_list = list(range(5))
         self.BS_workers_pool = {w_id: BeautifulSoup for w_id in self.BS_workers_id_list}
 
         for BS_worker_id in self.BS_workers_id_list:
@@ -79,11 +79,6 @@ class URLparser:
             self.pars_logger.info('Trying to get URL parsing queue with %s' % thr_name)
             current_parse_data = self.topars_queue.get()
             self.pars_logger.info('Got URL(%s) from parsing queue with %s' % (current_parse_data.url, thr_name))
-
-            # if current_parse_data == "stop":
-            #     self.parse_switch = False
-            #     self.topars_queue.put(current_parse_data)
-            #     continue
 
             current_BS_worker_id = self.BS_workers_queue.get()
             current_BS_worker = self.BS_workers_pool[current_BS_worker_id]

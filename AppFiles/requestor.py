@@ -14,7 +14,7 @@ class URLrequestor:
         self.to_reqt_queue = to_reqt_queue
         self.to_prse_queue = to_prse_queue
 
-        self.workers_id_list = list(range(3))
+        self.workers_id_list = list(range(10))
         self.workers_pool = {w_id: HTMLSession() for w_id in self.workers_id_list}
 
         for wrk_id in self.workers_id_list:
@@ -56,7 +56,6 @@ class URLrequestor:
 
             self.workers_queue.put(current_worker_id)
 
-        # self.to_prse_queue.put('stop')
 
     def requesting(self):
         self.requ_logger.debug('Function requesting of URLrequestor started')
