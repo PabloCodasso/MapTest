@@ -1,4 +1,5 @@
 from AppFiles.application import Application
 
-app_obj = Application()
-app_obj.execution()
+if __name__ == '__main__':
+    app_obj = Application()
+    print(app_obj.execution())
