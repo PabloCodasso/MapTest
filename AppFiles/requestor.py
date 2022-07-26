@@ -30,25 +30,15 @@ class URLrequestor:
         try:
             response = worker.get(url_data)
         except Exception as exc:
-            self.requ_logger.critical(exc)
+            self.requ_logger.warning(exc)
             return
-        self.requ_logger.info('Response from URL(%s): getted with %s' % (url_data, current_thread().name))
         self.to_prse_queue.put(response)
-        self.requ_logger.info('Response from URL(%s): putted in pars queue with %s' % (url_data, current_thread().name))
         return
 
     def torequest_queue_cheking(self):
-        self.requ_logger.debug('Start checking requst queue with %s' % current_thread().name)
         while self.reqt_switch:
-            self.requ_logger.info('Try get URL from request url with %s' % current_thread().name)
             current_url_data = self.to_reqt_queue.get()
-            self.requ_logger.info('Got URL(%s) from request queue with %s' % (current_url_data, current_thread().name))
             current_worker_id = self.workers_queue.get()
-
-            if current_url_data == "stop":
-                self.reqt_switch = False
-                self.to_reqt_queue.put(current_url_data)
-                continue
 
             current_worker = self.workers_pool[current_worker_id]
 
@@ -56,9 +46,7 @@ class URLrequestor:
 
             self.workers_queue.put(current_worker_id)
 
-
     def requesting(self):
-        self.requ_logger.debug('Function requesting of URLrequestor started')
         requestor_threads = [Thread(target=self.torequest_queue_cheking, daemon=True) for _ in self.workers_id_list]
 
         for req_thread in requestor_threads:
@@ -66,7 +54,6 @@ class URLrequestor:
 
         for req_thread in requestor_threads:
             req_thread.join()
-        self.requ_logger.debug('Function requesting of URLrequestor completed')
 
 
 def make_requestor(req_queue, pars_queue, log_queue):

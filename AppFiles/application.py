@@ -1,12 +1,12 @@
 from urllib.parse import urlparse
 from AppFiles.collector import Collector
+from datetime import datetime
 
 
 class Application:
     def __init__(self):
         self.main_switch = True
         self.user_uinput = str()
-        self.result_set = set()
 
     def execution(self):
         while self.main_switch:
@@ -19,11 +19,13 @@ class Application:
             if not self.url_validation(self.user_uinput):
                 print("Uncorrect URL syntax, try again. ")
                 continue
+            self.main_switch = False
 
-            collector = Collector(self.user_uinput)
-            self.result_set = collector.collecting()
+        collector = Collector(self.user_uinput)
+        timestamp = datetime.now()
+        collector.collecting()
+        print('Execution time: %s' % (datetime.now() - timestamp))
 
-        return "Sitemap completed with %d URLS" % len(self.result_set)
 
     @staticmethod
     def url_validation(url_str):
