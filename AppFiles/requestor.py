@@ -1,4 +1,4 @@
-from threading import Thread, current_thread
+from threading import Thread
 from multiprocessing import Queue
 from requests_html import HTMLSession
 import logging
